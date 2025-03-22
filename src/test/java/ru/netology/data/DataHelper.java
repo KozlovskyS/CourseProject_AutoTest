@@ -30,11 +30,11 @@ public class DataHelper {
     }
 
     public static String generateValidMonth() {
-        return  LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
     public static String generateValidYear() {
-       return  LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
     }
 
     public static String generatePastMonth() { //прошедший месяц
@@ -58,6 +58,10 @@ public class DataHelper {
     public static CvvCode generateInvalidCvvCode() {
         Faker faker = new Faker();
         return new CvvCode(faker.numerify("##"));
+    }
+
+    public static String generateEmptyField() {
+        return "";
     }
 
     // создание данных для авторизации
@@ -86,7 +90,7 @@ public class DataHelper {
     }
 
     public static AuthInfo generateApprovedEmptyCvv() {
-        return new AuthInfo(getApprovedCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"),null );
+        return new AuthInfo(getApprovedCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"), null);
     }
 
     public static AuthInfo generateApprovedZeroMonth() {
@@ -116,6 +120,7 @@ public class DataHelper {
     public static AuthInfo generateApprovedInValidCvv() {
         return new AuthInfo(getApprovedCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateInvalidCvvCode());
     }
+
 
     @Value
     public static class AuthInfo {
