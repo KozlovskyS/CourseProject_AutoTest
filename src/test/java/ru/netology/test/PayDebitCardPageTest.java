@@ -27,6 +27,7 @@ class PayDebitCardPageTest {
         var payDebitCardPage = choicePage.payDebitCard();
         payDebitCardPage.cleanFormFields();
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateValidApprovedUser());
+        payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleSuccessMessage("Операция одобрена Банком");
     }
 
@@ -37,6 +38,7 @@ class PayDebitCardPageTest {
         var payDebitCardPage = choicePage.payDebitCard();
         payDebitCardPage.cleanFormFields();
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateValidDeclinedUser());
+        payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleErrorMessage("Ошибка! Банк отказал в проведении операции.");
     }
 

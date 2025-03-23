@@ -27,15 +27,15 @@ public class PayDebitCardPage {
     private final SelenideElement errorMessage = $(".notification_status_error .notification__content");
 
     private final SelenideElement cardFieldError = $$(".input__top")
-            .findBy(text("Номер карты")).closest(".form-field").$(".input__sub");
+            .findBy(text("Номер карты")).closest(".input").$(".input__sub");
     private final SelenideElement monthFieldError = $$(".input__top")
-            .findBy(text("Месяц")).closest(".form-field").$(".input__sub");
+            .findBy(text("Месяц")).closest(".input").$(".input__sub");
     private final SelenideElement yearFieldError = $$(".input__top")
-            .findBy(text("Год")).closest(".form-field").$(".input__sub");
+            .findBy(text("Год")).closest(".input").$(".input__sub");
     private final SelenideElement nameFieldError = $$(".input__top")
-            .findBy(text("Владелец")).closest(".form-field").$(".input__sub");
+            .findBy(text("Владелец")).closest(".input").$(".input__sub");
     private final SelenideElement cvvFieldError = $$(".input__top")
-            .findBy(text("CVC/CVV")).closest(".form-field").$(".input__sub");
+            .findBy(text("CVC/CVV")).closest(".input").$(".input__sub");
 
 
     public PayDebitCardPage() {
@@ -56,7 +56,6 @@ public class PayDebitCardPage {
         yearField.setValue(authInfo.getYear());
         nameField.setValue(authInfo.getName());
         cvvField.setValue(String.valueOf(authInfo.getCvvCode()));
-        sendButton.click();
     }
 
     public void sendButtonClick() {
