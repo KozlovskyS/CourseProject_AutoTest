@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Random;
 
+import static java.lang.String.valueOf;
+
 public class DataHelper {
 
     private DataHelper() {
@@ -24,9 +26,24 @@ public class DataHelper {
         return new String("5555 6666 7777 8888");
     }
 
+    public static String generateRandomCardNumber() {
+        Faker faker = new Faker();
+        return faker.numerify("################");
+    }
+
+    public static String generateLossCardNumber() {
+        Faker faker = new Faker();
+        return faker.numerify("###############");
+    }
+
     private static String generateRandomName(String locale) {
         Faker faker = new Faker(new Locale(locale));
         return faker.name().username();
+    }
+
+    private static String generateRandomSymbols() {
+        Faker faker = new Faker();
+        return faker.internet().password();
     }
 
     public static String generateValidMonth() {
@@ -47,7 +64,7 @@ public class DataHelper {
 
     public static String generateInvalidMonth() {
         int invalidMonth = new Random().nextInt(87) + 13; // неправильный месяц с 13 по 99
-        return String.valueOf(invalidMonth);
+        return valueOf(invalidMonth);
     }
 
     public static CvvCode generateRandomCvvCode() {
@@ -91,6 +108,30 @@ public class DataHelper {
 
     public static AuthInfo generateApprovedEmptyCvv() {
         return new AuthInfo(getApprovedCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"), null);
+    }
+
+    public static AuthInfo generateZeroCardNumber() {
+        return new AuthInfo("0000000000000000", generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generateInvalidCardNumber() {
+        return new AuthInfo(generateRandomCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generatedLossCardNumber() {
+        return new AuthInfo(generateLossCardNumber(), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generatedLatinCardNumber() {
+        return new AuthInfo(generateRandomName("en"), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generatedCyrilCardNumber() {
+        return new AuthInfo(generateRandomName("ru"), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generatedSymbolCardNumber() {
+        return new AuthInfo(generateRandomSymbols(), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
     }
 
     public static AuthInfo generateApprovedZeroMonth() {
