@@ -43,7 +43,7 @@ public class DataHelper {
 
     private static String generateRandomSymbols() {
         Faker faker = new Faker();
-        return faker.internet().password();
+       return faker.internet().password(9,15,true,true,false);
     }
 
     public static String generateValidMonth() {
@@ -65,6 +65,11 @@ public class DataHelper {
     public static String generateInvalidMonth() {
         int invalidMonth = new Random().nextInt(87) + 13; // неправильный месяц с 13 по 99
         return valueOf(invalidMonth);
+    }
+
+    public static String generateOneDigit() {
+        Faker faker = new Faker();
+        return faker.numerify("#");
     }
 
     public static CvvCode generateRandomCvvCode() {
@@ -134,12 +139,23 @@ public class DataHelper {
         return new AuthInfo(generateRandomSymbols(), generateValidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
     }
 
+    public static AuthInfo generatedSymbolFieldMonth() {
+        return new AuthInfo(getApprovedCardNumber(),generateRandomSymbols(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
+    public static AuthInfo generatedCyrilFieldMonth() {
+        return new AuthInfo(getApprovedCardNumber(),generateRandomName("ru"), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+
     public static AuthInfo generateApprovedZeroMonth() {
         return new AuthInfo(getApprovedCardNumber(), "00", generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
     }
 
     public static AuthInfo generateApprovedInValidMonth() {
         return new AuthInfo(getApprovedCardNumber(), generateInvalidMonth(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
+    }
+    public static AuthInfo generateApprovedInValidMonthOneDigit() {
+        return new AuthInfo(getApprovedCardNumber(), generateOneDigit(), generateValidYear(), generateRandomName("en"), generateRandomCvvCode());
     }
 
     public static AuthInfo generateApprovedPastMonth() {

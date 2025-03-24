@@ -111,6 +111,7 @@ class PayDebitCardPageTest {
         payDebitCardPage.visibleCvvFieldError("Неверный формат");
     }
 
+    //валидация поля "номер карты"
     @Test
     void errorZeroCardNumber() {
         ChoicePayPage choicePage = new ChoicePayPage();
@@ -176,4 +177,61 @@ class PayDebitCardPageTest {
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleCardFieldError("Неверный формат");
     }
+
+    //валидация поля "месяц"
+    @Test
+    void errorSymbolMonth() { // лат. символы, спецсимволы
+        ChoicePayPage choicePage = new ChoicePayPage();
+        choicePage.choicePayPage();
+        var payDebitCardPage = choicePage.payDebitCard();
+        payDebitCardPage.cleanFormFields();
+        payDebitCardPage.fillPayDebitCardForm(DataHelper.generatedSymbolFieldMonth());
+        payDebitCardPage.sendButtonClick();
+        payDebitCardPage.visibleMonthFieldError("Неверный формат");
+    }
+    @Test
+    void errorCyrilMonth() { // кириллица
+        ChoicePayPage choicePage = new ChoicePayPage();
+        choicePage.choicePayPage();
+        var payDebitCardPage = choicePage.payDebitCard();
+        payDebitCardPage.cleanFormFields();
+        payDebitCardPage.fillPayDebitCardForm(DataHelper.generatedCyrilFieldMonth());
+        payDebitCardPage.sendButtonClick();
+        payDebitCardPage.visibleMonthFieldError("Неверный формат");
+    }
+    @Test
+    void errorZeroMonth() {
+        ChoicePayPage choicePage = new ChoicePayPage();
+        choicePage.choicePayPage();
+        var payDebitCardPage = choicePage.payDebitCard();
+        payDebitCardPage.cleanFormFields();
+        payDebitCardPage.fillPayDebitCardForm(DataHelper.generateApprovedZeroMonth());
+        payDebitCardPage.sendButtonClick();
+        payDebitCardPage.visibleMonthFieldError("Неверно указан срок действия карты");
+    }
+
+    @Test
+    void errorInValidMonth() {
+        ChoicePayPage choicePage = new ChoicePayPage();
+        choicePage.choicePayPage();
+        var payDebitCardPage = choicePage.payDebitCard();
+        payDebitCardPage.cleanFormFields();
+        payDebitCardPage.fillPayDebitCardForm(DataHelper.generateApprovedInValidMonth());
+        payDebitCardPage.sendButtonClick();
+        payDebitCardPage.visibleMonthFieldError("Неверно указан срок действия карты");
+    }
+
+    @Test
+    void errorInValidMonthOneDigit() {
+        ChoicePayPage choicePage = new ChoicePayPage();
+        choicePage.choicePayPage();
+        var payDebitCardPage = choicePage.payDebitCard();
+        payDebitCardPage.cleanFormFields();
+        payDebitCardPage.fillPayDebitCardForm(DataHelper.generateApprovedInValidMonthOneDigit());
+        payDebitCardPage.sendButtonClick();
+        payDebitCardPage.visibleMonthFieldError("Неверный формат");
+    }
+
+    //валидация поля "год"
+
 }
