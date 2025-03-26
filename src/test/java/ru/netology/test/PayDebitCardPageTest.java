@@ -1,8 +1,8 @@
 package ru.netology.test;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.page.ChoicePayPage;
 
@@ -11,9 +11,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PayDebitCardPageTest {
 
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
     @BeforeEach
     void setUp() {
         open("http://localhost:8080");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
     }
 
     @AfterEach
@@ -189,6 +199,7 @@ class PayDebitCardPageTest {
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleMonthFieldError("Неверный формат");
     }
+
     @Test
     void errorCyrilMonth() { // кириллица
         ChoicePayPage choicePage = new ChoicePayPage();
@@ -199,6 +210,7 @@ class PayDebitCardPageTest {
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleMonthFieldError("Неверный формат");
     }
+
     @Test
     void errorZeroMonth() {
         ChoicePayPage choicePage = new ChoicePayPage();
