@@ -4,6 +4,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
+import ru.netology.data.SQLHelper;
 import ru.netology.page.ChoicePayPage;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -28,6 +29,7 @@ class PayDebitCardPageTest {
 
     @AfterEach
     void tearDown() {
+        SQLHelper.cleanDataBase();
     }
 
     @Test
@@ -39,6 +41,8 @@ class PayDebitCardPageTest {
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateValidApprovedUser());
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleSuccessMessage("Операция одобрена Банком");
+
+        Assertions.assertEquals("APPROVED", SQLHelper.getStatusPayment());
     }
 
     @Test
@@ -50,6 +54,8 @@ class PayDebitCardPageTest {
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateValidDeclinedUser());
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleErrorMessage("Ошибка! Банк отказал в проведении операции.");
+
+        Assertions.assertEquals("DECLINED", SQLHelper.getStatusPayment());
     }
 
     @Test
@@ -131,6 +137,8 @@ class PayDebitCardPageTest {
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateZeroCardNumber());
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleErrorMessage("Ошибка! Банк отказал в проведении операции.");
+
+//        Assertions.assertEquals("DECLINED", SQLHelper.getStatusPayment());
     }
 
     @Test
@@ -142,6 +150,8 @@ class PayDebitCardPageTest {
         payDebitCardPage.fillPayDebitCardForm(DataHelper.generateInvalidCardNumber());
         payDebitCardPage.sendButtonClick();
         payDebitCardPage.visibleErrorMessage("Ошибка! Банк отказал в проведении операции.");
+
+//        Assertions.assertEquals("DECLINED", SQLHelper.getStatusPayment());
     }
 
     @Test
